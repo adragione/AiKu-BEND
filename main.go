@@ -58,18 +58,18 @@ func apiWarmup() {
 	}
 	json_data, err := json.Marshal(values)
 	if err != nil {
-		log.Fatal(err)
+		log.Panicf("Error performing json marshal: %v", err)
 	}
 	r, err := http.NewRequest("POST", posturl, bytes.NewBuffer(json_data))
 	if err != nil {
-		panic(err)
+		log.Panicf("Error creating POST request: %v", err)
 	}
 	r.Header.Add("Authorization", "Token "+os.Getenv("NUXT_REP_API_KEY"))
 	r.Header.Add("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(r)
 	if err != nil {
-		panic(err)
+		log.Panicf("Error performing POST request: %v", err)
 	}
 	defer resp.Body.Close()
 	var res map[string]interface{}
